@@ -124,10 +124,7 @@ fn toggle_window(app: &AppHandle) {
         visible && focused
     };
     if should_hide {
-        #[cfg(target_os = "macos")]
-        let _ = app.hide();
-        #[cfg(not(target_os = "macos"))]
-        let _ = win.hide();
+        crate::features::close_to_tray::hide(app, &win);
     } else {
         window::show_and_focus(app);
     }

@@ -73,7 +73,12 @@ pub fn show_and_focus(app: &AppHandle) {
     };
 
     #[cfg(target_os = "macos")]
-    let _ = app.show();
+    {
+        if let Err(e) = app.set_activation_policy(tauri::ActivationPolicy::Regular) {
+            log::warn!("failed to show Dock icon: {e}");
+        }
+        let _ = app.show();
+    }
 
     // Restoring a *minimised* window on Linux means unmapping it first. tao
     // asks GTK to deiconify and on Cinnamon nothing happens -- measured with

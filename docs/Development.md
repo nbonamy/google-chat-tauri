@@ -71,6 +71,16 @@ CI runs the first two, alongside the checks below. The rest drive the real deskt
 
 The Python harnesses observe X11 only — see [Notes.md](Notes.md) for what that does and does not prove.
 
+### macOS close-to-tray check
+
+Run the built `.app` and check these paths on macOS:
+
+- Close the window with its red button or `Cmd+W`: the window and Dock icon disappear, while the menu bar icon remains.
+- Choose **Toggle** from the menu bar icon: the window returns, takes focus and appears in the Dock again. Repeat the
+  close/reopen cycle, and check that launching the app again also restores it.
+- Enable **Start Hidden in Tray**, quit and relaunch: only the menu bar icon appears until **Toggle** opens the window.
+- Quit from the menu bar icon: the app exits and the icon disappears.
+
 ### What CI checks
 
 `ci.yml` runs on a push to `main` touching `src-tauri/`, `scripts/`, `package.json`, `pnpm-lock.yaml` or `ci.yml`

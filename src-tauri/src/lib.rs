@@ -198,6 +198,10 @@ pub fn run() {
             if !hidden || !has_tray {
                 window.show()?;
             }
+            #[cfg(target_os = "macos")]
+            if hidden && has_tray {
+                features::close_to_tray::hide(handle, &window);
+            }
 
             // Both run on their own threads and return immediately: a probe
             // that waits out a slow wifi association, and a check that sleeps

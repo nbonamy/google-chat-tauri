@@ -19,10 +19,15 @@ pub fn hide(app: &AppHandle, window: &WebviewWindow) {
         return;
     }
 
-    #[cfg(target_os = "macos")]
-    let _ = app.hide();
-    #[cfg(not(target_os = "macos"))]
     let _ = window.hide();
+    // An accessory app keeps its menu bar icon without appearing in the Dock
+    // or app switcher. Restore the regular policy in window::show_and_focus.
+    #[cfg(target_os = "macos")]
+    {
+        if let Err(e) = app.set_activation_policy(tauri::ActivationPolicy::Accessory) {
+            log::warn!("failed to hide Dock icon: {e}");
+        }
+    }
 }
 
 pub fn attach(window: &WebviewWindow) {

@@ -259,6 +259,12 @@ one that needs to clear its own tick.
 
 ## Windows, restart and reset
 
+### macOS close-to-tray changes the activation policy
+
+`app.hide()` leaves the Dock icon behind. Hide the window and switch to `ActivationPolicy::Accessory`, then restore
+`Regular` before showing and focusing it. Avoid `set_dock_visibility`: tao's implementation ignores a hide within a
+second of a show and sets `canHide` to false on every window, which interferes with repeated close/reopen cycles.
+
 ### `window::show_and_focus` hides a minimised window before showing it
 
 Cinnamon will not deiconify: `unminimize()` reaches `gtk_window_deiconify` and the window stays iconic however often it
